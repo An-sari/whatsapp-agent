@@ -88,6 +88,9 @@ VITE_APP_ID=<your-app-id>
 OAUTH_SERVER_URL=https://api.manus.im
 ```
 
+> Note: For Vercel function configuration, do not set `runtime: "nodejs18.x"` in `vercel.json`. Vercel auto-detects the Node runtime for `.ts`/`.js` functions, and specifying an unsupported runtime format will fail deployment.
+
+
 ### Optional Frontend / UI Variables
 
 ```
