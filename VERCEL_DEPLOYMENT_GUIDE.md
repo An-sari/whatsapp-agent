@@ -63,24 +63,41 @@ Ensure your project has:
 
 ## Step 3: Add Environment Variables
 
-In the Vercel project settings, go to **Settings** → **Environment Variables** and add all the following:
+In the Vercel project settings, go to **Settings** → **Environment Variables** and add the required values.
 
-### Supabase Configuration
-
-```
-SUPABASE_URL=https://qxllnxbbytqxbgqolrey.supabase.co
-SUPABASE_SERVICE_ROLE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InF4bGxueGJieXRxeGJncW9scmV5Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3NTM4MzEzNSwiZXhwIjoyMDkwOTU5MTM1fQ.jjCPZsBROucTXzYree4_qndq5wNo2CRxhr-d_wV8yMU
-VITE_SUPABASE_URL=https://qxllnxbbytqxbgqolrey.supabase.co
-VITE_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InF4bGxueGJieXRxeGJncW9scmV5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzUzODMxMzUsImV4cCI6MjA5MDk1OTEzNX0.8P7d7i06SiY6zJTG6V0EDp3THz7jOXWq9STF31uPLcg
-```
-
-### JWT & Session
+### Required Variables
 
 ```
-JWT_SECRET=your-secure-random-string-here-min-32-chars
+SUPABASE_URL=https://<your-supabase-project>.supabase.co
+SUPABASE_SERVICE_ROLE_KEY=<your-supabase-service-role-key>
+VITE_SUPABASE_URL=https://<your-supabase-project>.supabase.co
+VITE_SUPABASE_ANON_KEY=<your-supabase-anon-key>
+GEMINI_API_KEY=<your-google-gemini-api-key>
+JWT_SECRET=<your-secure-random-string-min-32-chars>
+APP_URL=https://<your-vercel-domain>.vercel.app
+META_CLIENT_ID=<your-meta-client-id>
+META_CLIENT_SECRET=<your-meta-client-secret>
+META_APP_ID=<your-meta-app-id>
+VITE_APP_ID=<your-app-id>
+OAUTH_SERVER_URL=https://api.manus.im
 ```
 
-Generate a secure JWT secret:
+### Optional Frontend / UI Variables
+
+```
+VITE_APP_TITLE=WhatsApp AI Sales Agent
+VITE_APP_LOGO=https://your-domain.com/logo.png
+BUILT_IN_FORGE_API_URL=https://api.manus.im
+BUILT_IN_FORGE_API_KEY=<your-forge-api-key>
+VITE_FRONTEND_FORGE_API_URL=https://api.manus.im
+VITE_FRONTEND_FORGE_API_KEY=<your-frontend-forge-api-key>
+```
+
+> Note: Do not store secret keys in the repository. Use the Vercel dashboard to keep environment variables secure.
+
+### Secure JWT Secret
+
+Generate a secure JWT secret and add it to Vercel:
 ```bash
 # On macOS/Linux
 openssl rand -base64 32
@@ -89,44 +106,15 @@ openssl rand -base64 32
 node -e "console.log(require('crypto').randomBytes(32).toString('base64'))"
 ```
 
-### OAuth Configuration (from Manus)
+### WhatsApp Credentials
 
-```
-VITE_APP_ID=your-app-id
-VITE_APP_TITLE=WhatsApp AI Sales Agent
-VITE_APP_LOGO=https://your-domain.com/logo.png
-VITE_OAUTH_PORTAL_URL=https://your-oauth-portal.com
-OAUTH_SERVER_URL=https://your-oauth-server.com
-```
-
-### Built-in Forge API
-
-```
-BUILT_IN_FORGE_API_URL=https://api.manus.im
-BUILT_IN_FORGE_API_KEY=your-forge-api-key
-VITE_FRONTEND_FORGE_API_URL=https://api.manus.im
-VITE_FRONTEND_FORGE_API_KEY=your-frontend-forge-api-key
-```
-
-### Owner Information
-
-```
-OWNER_NAME=Your Name
-OWNER_OPEN_ID=your-open-id
-```
-
-### Analytics (Optional)
-
-```
-VITE_ANALYTICS_ENDPOINT=https://your-analytics.com
-VITE_ANALYTICS_WEBSITE_ID=your-website-id
-```
+WhatsApp Business credentials are typically configured inside the app's dashboard after deployment, and then stored securely in Supabase.
 
 ## Step 4: Configure Webhook URL
 
 After your Vercel deployment is live, you'll have a URL like:
 ```
-https://whatsapp-ai-sales-agent.vercel.app
+https://<your-vercel-domain>.vercel.app
 ```
 
 ### 4.1 Update WhatsApp Webhook Settings
@@ -135,25 +123,18 @@ https://whatsapp-ai-sales-agent.vercel.app
 2. Navigate to **WhatsApp** → **Configuration**
 3. Set your **Webhook URL** to:
    ```
-   https://your-vercel-domain.vercel.app/api/whatsapp/webhook
+   https://<your-vercel-domain>.vercel.app/api/whatsapp/webhook
    ```
-4. Set your **Webhook Verify Token** (same as `WHATSAPP_WEBHOOK_VERIFY_TOKEN`)
+4. Set your **Webhook Verify Token** to the value you configured in the app settings.
 
 ### 4.2 Store WhatsApp Credentials
 
-You can store WhatsApp credentials in two ways:
+Configure your WhatsApp credentials in the application settings and save them to the database:
 
-**Option A: Environment Variables (Recommended for Production)**
-```
-WHATSAPP_BUSINESS_PHONE_NUMBER_ID=your-phone-number-id
-WHATSAPP_BUSINESS_ACCOUNT_ID=your-account-id
-WHATSAPP_ACCESS_TOKEN=your-access-token
-WHATSAPP_WEBHOOK_VERIFY_TOKEN=your-webhook-verify-token
-```
-
-**Option B: Application Settings (Flexible)**
-- Use the Settings page in your application to configure credentials
-- Credentials are stored in Supabase database
+- Business Phone Number ID
+- Business Account ID
+- Access Token
+- Webhook Verify Token
 
 ## Step 5: Deploy
 
