@@ -1,0 +1,16 @@
+// This file shows the recommended build scripts for Vercel deployment
+// Copy these scripts into your package.json "scripts" section
+
+{
+  "scripts": {
+    "dev": "NODE_ENV=development tsx watch server/_core/index.ts",
+    "build": "vite build && esbuild server/_core/index.ts --platform=node --packages=external --bundle --format=esm --outdir=dist",
+    "start": "NODE_ENV=production node dist/index.js",
+    "preview": "vite preview",
+    "check": "tsc --noEmit",
+    "format": "prettier --write .",
+    "test": "vitest run",
+    "db:push": "drizzle-kit generate && drizzle-kit migrate",
+    "vercel-build": "pnpm build"
+  }
+}

@@ -1,0 +1,5 @@
+{
+  "name": "WhatsApp AI Sales Agent",
+  "description": "An intelligent WhatsApp sales agent that automates customer engagement, lead qualification, and conversions using Gemini AI.",
+  "requestFramePermissions": []
+}
