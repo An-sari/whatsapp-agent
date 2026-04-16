@@ -63,17 +63,23 @@ Ensure your project has:
 
 ## Step 3: Add Environment Variables
 
-In the Vercel project settings, go to **Settings** → **Environment Variables** and add the required values.
+**Important**: Vercel does not read `.env` files. Environment variables must be set in the Vercel dashboard.
+
+1. In your Vercel project, go to **Settings** → **Environment Variables**
+2. Add each variable individually (do not import `.env` files)
+3. Set them for **Production**, **Preview**, and **Development** environments as needed
 
 ### Required Variables
 
+Add these variables in the Vercel dashboard with your actual values:
+
 ```
-SUPABASE_URL=https://<your-supabase-project>.supabase.co
+SUPABASE_URL=<your-supabase-project-url>
 SUPABASE_SERVICE_ROLE_KEY=<your-supabase-service-role-key>
-VITE_SUPABASE_URL=https://<your-supabase-project>.supabase.co
+VITE_SUPABASE_URL=<your-supabase-project-url>
 VITE_SUPABASE_ANON_KEY=<your-supabase-anon-key>
 GEMINI_API_KEY=<your-google-gemini-api-key>
-JWT_SECRET=<your-secure-random-string-min-32-chars>
+JWT_SECRET=<generate-a-secure-random-string>
 APP_URL=https://<your-vercel-domain>.vercel.app
 META_CLIENT_ID=<your-meta-client-id>
 META_CLIENT_SECRET=<your-meta-client-secret>
@@ -93,11 +99,11 @@ VITE_FRONTEND_FORGE_API_URL=https://api.manus.im
 VITE_FRONTEND_FORGE_API_KEY=<your-frontend-forge-api-key>
 ```
 
-> Note: Do not store secret keys in the repository. Use the Vercel dashboard to keep environment variables secure.
+> **Do not import .env files**: Vercel has an "Import" feature, but it doesn't work reliably. Add variables manually in the dashboard.
 
 ### Secure JWT Secret
 
-Generate a secure JWT secret and add it to Vercel:
+Generate a secure JWT secret:
 ```bash
 # On macOS/Linux
 openssl rand -base64 32
