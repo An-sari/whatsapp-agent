@@ -1,0 +1,11 @@
+name = "whatsapp-ai-sales-agent"
+type = "javascript"
+main = "server/_core/index.ts"
+compatibility_date = "2026-04-16"
+compatibility_flags = ["nodejs_compat"]
+workers_dev = true
+account_id = ""
+
+# Placeholder config for Cloudflare Workers porting.
+# The current Express backend is not directly compatible with Cloudflare Workers
+# until the server is rewritten for worker-based request handling and cron jobs.

@@ -39,7 +39,7 @@ git push -u origin main
 
 ## Step 2: Deploy to Cloudflare Pages
 
-Cloudflare Pages is the best way to host the Vite frontend and the server-side logic.
+Cloudflare Pages can host the Vite frontend, but the current Express backend is not directly compatible with Cloudflare Workers without refactoring.
 
 ### 2.1 Create a New Pages Project
 
@@ -55,6 +55,8 @@ Cloudflare Pages is the best way to host the Vite frontend and the server-side l
 4. **Build Command**: `npm run build`
 5. **Output Directory**: `dist`
 6. **Root Directory**: `/`
+
+> Note: These settings are only for the frontend build. The current backend is an Express app with scheduled background tasks and cannot be deployed directly to Cloudflare Workers without refactoring.
 
 ### 2.3 Add Environment Variables
 
@@ -87,16 +89,23 @@ In the **Environment variables (advanced)** section, add the following variables
 
 ---
 
-## Step 3: Configure the Backend (Compatibility)
+## Step 3: Backend Compatibility
 
-Since this is a Node.js Express app, you need to enable Node.js compatibility in Cloudflare.
+This project currently includes a full Express backend with long-running background workers (`setInterval`, `runNurtureEngine`, `runScheduledMessageWorker`) and direct PostgreSQL access. That architecture is not directly compatible with Cloudflare Workers or Pages Functions.
 
-1. Go to your Pages project settings: **Settings** → **Functions** → **Compatibility flags**
-2. Add `nodejs_compat` to both Production and Preview.
-3. If you are using a custom `wrangler.toml`, ensure it includes:
-   ```toml
-   compatibility_flags = [ "nodejs_compat" ]
-   ```
+### What can deploy to Cloudflare
+- The static frontend built by Vite can be deployed to Cloudflare Pages.
+- API endpoints and scheduled jobs require a separate Node host or a rewrite for Cloudflare Workers.
+
+### If you want to use Cloudflare for the backend
+- You would need to port the backend to a Workers-compatible architecture.
+- Remove Express and scheduled background intervals.
+- Use Cloudflare Cron Triggers for recurring jobs.
+- Use `nodejs_compat` only if you are targeting a custom Node-compatible runtime, but this is experimental.
+
+### Placeholder `wrangler.toml`
+
+A `wrangler.toml` file is included as a starting point for future Cloudflare Worker porting, but the current code will not deploy successfully without refactoring.
 
 ---
 
